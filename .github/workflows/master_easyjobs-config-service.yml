@@ -28,7 +28,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: java-app
-          path: '${{ github.workspace }}/gradle/wrapper/*.jar'
+          path: '${{ github.workspace }}/src/main/resources/*.yml'
 
   deploy:
     runs-on: windows-latest
@@ -51,4 +51,4 @@ jobs:
           app-name: 'easyjobs-config-service'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_CD9B087514EF4FBEAC97A4246B716FC3 }}
-          package: '*.jar'
+          package: '*.yml'
