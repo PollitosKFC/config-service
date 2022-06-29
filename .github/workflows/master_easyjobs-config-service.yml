@@ -24,12 +24,6 @@ jobs:
       - name: Gradle Build Action
         uses: gradle/gradle-build-action@v2.2.1
 
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v2
-        with:
-          name: java-app
-          path: '${{ github.workspace }}/target/*.war'
-
   deploy:
     runs-on: windows-latest
     needs: build
@@ -38,10 +32,6 @@ jobs:
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v2
-        with:
-          name: config-service
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
