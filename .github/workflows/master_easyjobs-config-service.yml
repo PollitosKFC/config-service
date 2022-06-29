@@ -23,6 +23,12 @@ jobs:
 
       - name: Gradle Build Action
         uses: gradle/gradle-build-action@v2.2.1
+        
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v2
+        with:
+          name: java-app
+          path: '${{ github.workspace }}/target/*.jar'
 
   deploy:
     runs-on: windows-latest
@@ -32,6 +38,11 @@ jobs:
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
+    
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v2
+        with:
+          name: java-app
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
@@ -40,4 +51,4 @@ jobs:
           app-name: 'easyjobs-config-service'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_CD9B087514EF4FBEAC97A4246B716FC3 }}
-          package: '*.war'
+          package: '*.jar'
